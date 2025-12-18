@@ -4,7 +4,7 @@ from typing import Any
 from .louvain import louvain_communities
 from .lpa import label_propagation_communities
 from .greedy import greedy_modularity_communities
-from .leidein import leiden_communities
+from .leiden import leiden_communities
 from .kcore import kcore_communities
 # from .connex import strongly_connected_components
 

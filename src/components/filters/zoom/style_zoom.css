@@ -1,0 +1,128 @@
+/* ==========================================================================
+    Zoom Controls Panel
+    Purpose:
+    - Floating compact panel
+    - Minimal width so it doesn’t obscure the graph
+    - Glass-like appearance consistent with other panels
+    ========================================================================== */
+.zoom-controls-panel {
+  background: rgba(20, 30, 50, 0.98);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(90, 130, 255, 0.25);
+  border-radius: 12px;
+  padding: 14px;
+  min-width: 70px;
+  max-width: 90px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  user-select: none;        /* prevents text selection while dragging */
+  z-index: 1000;
+}
+
+/* ==========================================================================
+    Drag Handle
+    Purpose:
+    - Dedicated grab area so buttons remain clickable
+    - Visual cue for drag affordance
+    ========================================================================== */
+.zoom-drag-handle {
+  height: 4px;
+  background: rgba(100, 140, 255, 0.3);
+  border-radius: 2px;
+  margin-bottom: 12px;
+  cursor: grab;
+  transition: background-color 0.2s ease;
+}
+
+.zoom-drag-handle:hover {
+  background: rgba(100, 140, 255, 0.5);
+}
+
+/* ==========================================================================
+    Controls Grid
+    Purpose:
+    - Vertical stacking of controls
+    - Predictable hit targets on small panel
+    ========================================================================== */
+.zoom-controls-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+/* ==========================================================================
+    Zoom Buttons
+    Purpose:
+    - Large enough for easy clicking
+    - Subtle motion feedback (hover/active)
+    ========================================================================== */
+.zoom-button {
+  background: rgba(30, 50, 80, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #e8f2ff;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px;
+  width: 100%;
+  min-height: 40px;
+
+  transition: all 0.2s ease;
+}
+
+.zoom-button:hover {
+  background: rgba(40, 60, 90, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.zoom-button:active {
+  transform: translateY(0);
+  background: rgba(30, 50, 80, 0.9);
+}
+
+/* Color cues for intent */
+.zoom-in-button:hover    { border-color: #4CAF50; }
+.zoom-out-button:hover  { border-color: #F44336; }
+.zoom-reset-button:hover { border-color: #FFD166; }
+
+/* ==========================================================================
+    Icon
+    Purpose:
+    - SVG ensures crisp scaling at any DPI
+    ========================================================================== */
+.zoom-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* ==========================================================================
+    Zoom Level Indicator
+    Purpose:
+    - Shows current zoom at a glance
+    - Monospace font prevents jitter as numbers change
+    ========================================================================== */
+.zoom-level-indicator {
+  color: #FFD166;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+
+  padding: 8px;
+  background: rgba(30, 50, 80, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+}

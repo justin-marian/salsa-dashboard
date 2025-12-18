@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="Interactive Network Graph Visualization - Explore complex relationships and community structures"
+    />
+    <meta name="author" content="Graph Analytics Platform" />
+
+    <meta
+      name="keywords"
+      content="network graph, visualization, communities, centrality, SALSA, PageRank"
+    />
+
+    <meta property="og:title" content="Network Graph Visualization" />
+    <meta
+      property="og:description"
+      content="Interactive exploration of network structures and community detection"
+    />
+    <meta property="og:type" content="website" />
+
+    <meta name="theme-color" content="#1a365d" />
+    <meta name="msapplication-TileColor" content="#1a365d" />
+
+    <title>Network Graph Explorer</title>
+
+    <style>
+      :root {
+        --bg-0: #0f172a;
+        --bg-1: #1e293b;
+
+        --text-0: #ffffff;
+        --text-1: #e2e8f0;
+        --text-2: #94a3b8;
+
+        --accent: #3b82f6;
+        --danger: #ef4444;
+
+        --fade-ms: 500ms;
+        --radius: 10px;
+      }
+
+      /* ------------------------------
+      Base reset
+      ------------------------------ */
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+        background: linear-gradient(135deg, var(--bg-0) 0%, var(--bg-1) 100%);
+      }
+
+      /* App mount */
+      #root {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+      }
+
+      /* ------------------------------
+      Loading screen (boot overlay)
+      ------------------------------ */
+      #loading-screen {
+        position: fixed;
+        inset: 0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        background: linear-gradient(135deg, var(--bg-0) 0%, var(--bg-1) 100%);
+        color: var(--text-0);
+
+        z-index: 9999;
+        transition: opacity var(--fade-ms) ease-out;
+      }
+
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid var(--accent);
+        border-radius: 50%;
+
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      .loading-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--text-1);
+      }
+
+      .loading-subtext {
+        font-size: 14px;
+        color: var(--text-2);
+        margin-top: 8px;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Hide loading screen when app loads */
+      .loaded #loading-screen {
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ==========================================================
+      Boot loading overlay (removed automatically on window load)
+      ========================================================== -->
+    <div id="loading-screen" role="status" aria-live="polite">
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <div class="loading-text">Loading Network Explorer</div>
+      <div class="loading-subtext">Initializing visualization engine...</div>
+    </div>
+
+    <!-- ==========================================================
+      React mount point
+      ========================================================== -->
+    <div id="root"></div>
+
+    <!-- ==========================================================
+      Boot scripts
+      Keep very small: just load-state + fallback error UI.
+      ========================================================== -->
+    <script>
+      (function () {
+        /* Development-only performance marker */
+        if (window.location.hostname === "localhost") {
+          window.performanceMark = function (name) {
+            if (typeof performance !== "undefined" && performance.mark) {
+              performance.mark(name);
+            }
+          };
+          window.performanceMark("html_loaded");
+        }
+
+        /* On load: fade out splash and remove it */
+        window.addEventListener("load", function () {
+          document.body.classList.add("loaded");
+
+          window.setTimeout(function () {
+            var el = document.getElementById("loading-screen");
+            if (el) el.remove();
+          }, 500);
+        });
+
+        /* If JS module fails: replace splash content with an error panel */
+        window.addEventListener("error", function () {
+          var el = document.getElementById("loading-screen");
+          if (!el) return;
+
+          el.innerHTML =
+            '<div style="text-align:center;color:var(--danger)">' +
+            '<div class="loading-text">Failed to load application</div>' +
+            '<div class="loading-subtext">Please check your connection and refresh the page</div>' +
+            '<button onclick="window.location.reload()" style="' +
+            "margin-top:20px;" +
+            "padding:10px 20px;" +
+            "background:var(--accent);" +
+            "color:white;" +
+            "border:none;" +
+            "border-radius:6px;" +
+            "cursor:pointer;" +
+            "font-size:14px;" +
+            '">' +
+            "Retry</button>" +
+            "</div>";
+        });
+      })();
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -8,9 +8,9 @@ from collections.abc import Callable
 
 from .utils import get_device
 from .centrality import compute_salsa_centrality
-from .detect_comunities import detect_communities
-from .centrality_besaline import compute_baseline_centralities
-from .balance_comunities import balance_community_sizes
+from .detect_communities import detect_communities
+from .centrality_baseline import compute_baseline_centralities
+from .balance_communities import balance_community_sizes
 from .report import report_results
 
 

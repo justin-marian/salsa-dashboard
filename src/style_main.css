@@ -1,0 +1,101 @@
+/* ============================================================
+    Root theme defaults
+    Purpose:
+    - Establish global font + readability defaults
+    - Set baseline color scheme settings
+    ============================================================ */
+:root {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #0f0e0e;
+  background-color: #ecf0f1;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Universal box sizing
+    Purpose:
+    - Avoid layout surprises with padding/borders */
+* {
+  box-sizing: border-box;
+}
+
+/* Body baseline
+    Purpose:
+    - Remove default margin
+    - Ensure minimum viewport size
+    - Provide background gradient behind app */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Root mount sizing
+    Purpose:
+    - Guarantee React app uses full viewport height */
+#root {
+  width: 100%;
+  height: 100vh;
+}
+
+/* Headings baseline
+    Purpose:
+    - Unified spacing and weight for titles across app */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.2;
+  color: rgb(58, 54, 54)
+}
+
+/* Button baseline
+    Purpose:
+    - Consistent clickable style for all buttons (Retry, etc.)
+    - Hover feedback for discoverability */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+/* Hover affordance
+    Purpose:
+    - Visual feedback + slight lift */
+button:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Focus accessibility
+    Purpose:
+    - Visible keyboard focus ring */
+button:focus,
+button:focus-visible {
+  outline: 4px auto #3498db;
+}
+
+/* Light scheme overrides
+    Purpose:
+    - Respect user OS preference for light mode */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #3b87de;
+    background-color: #ffffff;
+  }
+}

@@ -31,3 +31,7 @@ env/
 venv/
 temp/
 tmp/
+
+# Local / generated
+*.tsbuildinfo
+venv.sh

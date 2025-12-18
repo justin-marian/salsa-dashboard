@@ -1,0 +1,171 @@
+/* ============================================================
+    Global layout anchors
+    Purpose:
+    - Ensure app fills viewport
+    - Provide default typography
+    ============================================================ */
+html, body, #root { 
+  height: 100%; 
+  margin: 0; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Root container reset
+    Purpose:
+    - Remove default Vite template constraints (max-width/padding)
+    - Keep layout controlled by app-container/content */
+#root {
+  max-width: none;
+  padding: 0;
+  text-align: left;
+}
+
+/* App container
+    Purpose:
+    - Vertical layout: header on top, content fills rest
+    - Background gradient visible behind the visualization */
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Header bar
+    Purpose:
+    - Persistent top chrome containing app title + controls
+    - Glassy effect via backdrop-filter */
+.header {
+  background: rgba(20, 30, 50, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Header title styling */
+.header h1 {
+  margin: 0;
+  color: #eff4f9;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Optional header subtitle styling */
+.header p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.9rem;
+}
+
+/* Main content
+    Purpose:
+    - Takes remaining space under header
+    - overflow hidden prevents canvas scrollbars and keeps overlays clean */
+.content {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Loading state container
+    Purpose:
+    - Centered UX for fetch/parse pipeline
+    - Slight translucent background so it fits the theme */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Spinner
+    Purpose:
+    - Primary loading affordance */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #3973d9ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error container
+    Purpose:
+    - Visibly “hard fail” state
+    - Keeps error readable and prominent */
+.error-container {
+  background: #e74c3c;
+  color: rgb(213, 21, 21);
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3);
+}
+
+/* Stats overlay panel
+    Purpose:
+    - Always visible diagnostics during graph rendering
+    - Positioned above canvas using z-index */
+.stats-panel {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 200px;
+}
+
+/* Stats row
+    Purpose:
+    - Key/value alignment for quick scanning */
+.stats-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+/* Stats value highlight
+    Purpose:
+    - Makes numeric metrics stand out */
+.stats-value {
+  font-weight: 600;
+  color: #0b2b8d;
+}
+
+/* Progress bar (loading screen)
+    Purpose:
+    - communicates file read progress for large JSON exports */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+/* Progress fill
+    Purpose:
+    - the moving indicator driven by `progress` state */
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00b09b, #96c93d);
+  transition: width 0.3s ease;
+}

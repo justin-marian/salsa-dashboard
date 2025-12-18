@@ -1,0 +1,366 @@
+/* ==========================================================================
+    NodeDetailsPanel (container)
+    Purpose:
+    - Floating draggable inspection panel for a selected node
+    - Compact layout with scroll for long metadata
+    ========================================================================== */
+.node-details-panel {
+    background: rgba(20, 30, 50, 0.98);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #5a82ff40;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 280px;
+    max-width: 340px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    color: #e8f2ff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    user-select: none;    /* helps dragging; content wrapper re-enables selection */
+    z-index: 1000;
+}
+
+/* Content wrapper
+    Purpose:
+    - Allows selecting/copying text inside panel (overrides user-select:none) */
+.node-details-panel-content {
+    cursor: auto;
+    user-select: text;
+}
+
+/* Section wrapper
+    Purpose:
+    - consistent spacing between sections
+    - divider line for scanning */
+.node-details-section {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.node-details-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Header (drag handle)
+    Purpose:
+    - draggable bar with title and close button */
+.node-details-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    cursor: grab;
+}
+.node-details-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    flex: 1;                    /* pushes close button to the right */
+    color: #FFD166;
+}
+
+/* Key/value row
+    Purpose:
+    - uniform layout for labels + values
+    - subtle divider for readability */
+.node-details-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    min-height: 28px;
+}
+.node-details-row:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+/* Left label (key)
+    Purpose:
+    - fixed width so values line up vertically */
+.node-details-key {
+    width: 80px;
+    color: rgba(200, 220, 255, 0.7);
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+/* Right value
+    Purpose:
+    - flexible area that wraps long URLs/IDs */
+.node-details-value {
+    flex: 1;
+    word-break: break-word;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 500;
+}
+
+/* Monospace value (IDs, codes)
+    Purpose:
+    - visually differentiate “technical” values */
+.node-details-mono {
+    font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(10, 20, 40, 0.4);
+    padding: 4px 8px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 400;
+}
+
+/* Section title
+    Purpose:
+    - visual header with optional action button (e.g. Show/Hide) */
+.node-details-section-title {
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #7dd3fc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Community color preview
+    Purpose:
+    - tiny swatch to visually identify community color */
+.community-color-preview {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+/* Color display zone
+    Purpose:
+    - container that shows a big color box + the hex string (copy hint) */
+.color-display-zone {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: rgba(15, 25, 45, 0.6);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 2px;
+}
+
+/* Big color box
+    Purpose:
+    - clickable area to copy the community color */
+.color-display-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+.color-display-box:hover {
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Hex code display
+    Purpose:
+    - exact color string visible and easy to copy manually */
+.color-hex-code {
+    flex: 1;
+    font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Copy hint
+    Purpose:
+    - subtle UX cue so users discover the click-to-copy feature */
+.color-copy-hint {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    margin-left: 6px;
+    font-style: italic;
+}
+
+/* Copied notification toast
+    Purpose:
+    - transient feedback after copy (currently not triggered in JS) */
+.color-copied-notification {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(16, 185, 129, 0.95);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    z-index: 10000;
+    animation: fadeInOut 2s ease-in-out;
+}
+
+/* Node ID highlight row
+    Purpose:
+    - visually emphasizes the node ID at the top */
+.node-id-row {
+    background: rgba(30, 60, 90, 0.3);
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(90, 130, 255, 0.2);
+}
+
+/* Score grid + cards
+    Purpose:
+    - compact dashboard layout for centrality and degree values */
+.node-details-scores-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+.node-details-score-box {
+    background: rgba(30, 50, 80, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.node-details-score-key {
+    font-size: 10px;
+    color: rgba(200, 220, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+.node-details-score-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+/* Link styling
+    Purpose:
+    - readable, truncated link display with subtle underline hint */
+.node-details-link {
+    color: #7dd3fc;
+    text-decoration: none;
+    font-size: 11px;
+    word-break: break-all;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    border-bottom: 1px dotted #7dd3fc4d;
+    padding: 2px 0;
+}
+
+/* Close button
+    Purpose:
+    - small, clear action button in the header */
+.node-details-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 120, 120, 0.3);
+    background: rgba(255, 100, 100, 0.12);
+    color: rgba(255, 160, 160, 0.95);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Toggle button
+    Purpose:
+    - used in Description section to show/hide long text */
+.node-toggle-button {
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+/* Description text block
+    Purpose:
+    - readable “callout” style for longer description fields */
+.node-description-text {
+    font-size: 11px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(30, 50, 80, 0.5);
+    padding: 8px;
+    border-radius: 5px;
+    border-left: 2px solid #7dd3fc;
+    margin-top: 6px;
+}
+
+/* Scrollbar styling
+    Purpose:
+    - matches the panel theme */
+.node-details-panel::-webkit-scrollbar { width: 6px; }
+.node-details-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+.node-details-panel::-webkit-scrollbar-thumb {
+    background: rgba(90, 130, 255, 0.3);
+    border-radius: 3px;
+}
+.node-details-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(90, 130, 255, 0.5);
+}
+
+/* Stat subtext
+    Purpose:
+    - tiny helper text below score values */
+.node-stat-subtext {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 1px;
+    font-weight: 500;
+}
+
+/* Removes hover effects for compact feel (prevents unintended motion) */
+.node-details-section:hover,
+.node-details-score-box:hover,
+.color-display-zone:hover {
+    transform: none;
+    box-shadow: none;
+}

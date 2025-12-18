@@ -1,0 +1,259 @@
+/* ==========================================================================
+    GraphInfo Panel (container)
+    Purpose:
+    - Provides a floating, draggable “card” UI with a glassy background
+    - Ensures the panel is readable on top of a graph canvas
+    - Limits size and enables scrolling for large stat tables
+    ========================================================================== */
+.graph-info-panel {
+    background: rgba(20, 30, 50, 0.98);        /* deep translucent base for glass effect */
+    backdrop-filter: blur(8px);                    /* blur behind panel for separation */
+    -webkit-backdrop-filter: blur(8px);       /* Safari support */
+    border: 1px solid rgba(90, 130, 255, 0.25); /* subtle blue border to match theme */
+    border-radius: 12px;                              /* modern rounded corners */
+    padding: 16px;                                        /* internal spacing */
+    min-width: 300px;                                    /* prevents cramped layout */
+    max-width: 360px;                                    /* keeps panel compact */
+    max-height: 70vh;                                    /* prevents taking over screen */
+    overflow-y: auto;                                    /* scroll if content grows */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* lift above canvas */
+    color: #e8f2ff;                                       /* readable text on dark background */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    user-select: none;                                  /* prevents accidental text selection while dragging */
+    z-index: 1000;                                        /* ensures it stays above graph */
+}
+
+/* ==========================================================================
+    Header (drag handle)
+    Purpose:
+    - Defines the draggable area visually and functionally
+    - Provides title + current layout status indicator
+    ========================================================================== */
+.graph-info-header {
+    display: flex;                                        /* align title + pill on one line */
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;                             /* spacing before border */
+    margin-bottom: 16px;                              /* spacing before first section */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12); /* separator line */
+    cursor: grab;                                          /* communicates “drag me” */
+}
+
+.graph-info-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFD166;                                       /* warm accent so title stands out */
+    letter-spacing: 0.3px;
+}
+
+/* Status pill base */
+.graph-status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 10px;                              /* “pill” shape */
+    letter-spacing: 0.5px;
+}
+
+/* Status: stable layout (no force running) */
+.graph-status-stable {
+    background: rgba(120, 200, 120, 0.15); /* subtle green tint */
+    color: #78c878;
+    border: 1px solid rgba(120, 200, 120, 0.3);
+}
+
+/* Status: force layout running (motion/compute ongoing) */
+.graph-status-force {
+    background: rgba(255, 120, 120, 0.15); /* subtle red tint */
+    color: #ff7878;
+    border: 1px solid rgba(255, 120, 120, 0.3);
+}
+
+/* ==========================================================================
+    Sections
+    Purpose:
+    - Visually groups related stats into panels
+    - Adds spacing & subtle border for structure
+    ========================================================================== */
+.graph-info-section {
+    background: rgba(25, 40, 65, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.graph-info-section-title {
+    margin: 0 0 14px 0;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;                    /* gives “dashboard” feel */
+    letter-spacing: 0.8px;
+    color: #7dd3fc;                                       /* cool accent for section headers */
+}
+
+/* ==========================================================================
+    Stats Grid (the 4 main metric tiles)
+    Purpose:
+    - Presents the most important numbers as quick-scan cards
+    ========================================================================== */
+.graph-info-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns, 2 rows layout */
+    gap: 12px;
+}
+
+.graph-info-stat {
+    background: rgba(30, 50, 80, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;                                /* numbers centered for quick reading */
+}
+
+.graph-stat-label {
+    display: block;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.graph-stat-value {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+/* ==========================================================================
+    Properties list (key/value lines)
+    Purpose:
+    - Shows secondary stats in a compact readable list form
+    ========================================================================== */
+.graph-info-properties {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.graph-property {
+    display: flex;
+    justify-content: space-between;             /* label left, value right */
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.graph-property:last-child {
+    border-bottom: none;                              /* clean bottom */
+}
+
+.graph-property-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.graph-property-value {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace; /* numeric look */
+}
+
+/* ==========================================================================
+    Toggle button (show/hide community stats)
+    Purpose:
+    - Makes advanced stats optional and reduces clutter by default
+    ========================================================================== */
+.graph-info-toggle {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.graph-info-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+    Community stats details table
+    Purpose:
+    - Shows arbitrary key/value stats in a structured table format
+    ========================================================================== */
+.graph-info-details {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.graph-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.graph-stats-table tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.graph-stats-table tr:last-child {
+    border-bottom: none;
+}
+
+.graph-stats-table td {
+    padding: 6px 0;
+    font-size: 11px;
+}
+
+.graph-stat-key {
+    color: #7dd3fc;
+    font-weight: 600;
+    width: 140px;                                          /* keeps keys aligned */
+}
+
+.graph-stat-value {
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    text-align: right;                                 /* values align visually */
+}
+
+/* ==========================================================================
+    Scrollbar styling
+    Purpose:
+    - Keeps scrollbars subtle and consistent with theme (WebKit + Firefox)
+    ========================================================================== */
+.graph-info-panel::-webkit-scrollbar { width: 6px; }
+.graph-info-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+.graph-info-panel::-webkit-scrollbar-thumb {
+    background: rgba(100, 140, 255, 0.3);
+    border-radius: 3px;
+}
+.graph-info-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 140, 255, 0.4);
+}
+
+/* Firefox */
+.graph-info-panel {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 140, 255, 0.3) rgba(255, 255, 255, 0.05);
+}

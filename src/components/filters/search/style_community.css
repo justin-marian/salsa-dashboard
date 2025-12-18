@@ -1,0 +1,203 @@
+/* ==========================================================================
+    Community Filters Panel (container)
+    Purpose:
+    - Floating “glass” panel that overlays the graph
+    - No padding because the header button supplies its own padding
+    - overflow hidden so rounded corners clip inner content
+    ========================================================================== */
+.community-filters-panel {
+    background: rgba(20, 30, 50, 0.98);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(90, 130, 255, 0.25);
+    border-radius: 12px;
+    padding: 0;                           /* header handles spacing */
+    min-width: 280px;
+    max-width: 320px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #e8f2ff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    user-select: none;                /* prevents accidental selection while dragging */
+    z-index: 1000;
+    overflow: hidden;                 /* keeps rounded corners clean */
+}
+
+/* ==========================================================================
+    Toggle Button Header (drag handle)
+    Purpose:
+    - Full-width header that users can grab to drag
+    - Displays summary (selected/total) and expand/collapse indicator
+    ========================================================================== */
+.community-toggle-button {
+    background: rgba(30, 50, 80, 0.6);
+    border: none;
+    color: #e8f2ff;
+    padding: 12px 16px;
+    border-radius: 12px;
+    cursor: grab;                        /* signals drag */
+    width: 100%;
+    text-align: left;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* separation from body */
+}
+.community-toggle-button:hover {
+    background: rgba(40, 60, 90, 0.7);
+}
+
+/* ==========================================================================
+    Content Area
+    Purpose:
+    - Provides padding and scrolling for long lists
+    - Keeps list from growing beyond viewport
+    ========================================================================== */
+.community-content-area {
+    padding: 14px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+/* ==========================================================================
+    Button Group
+    Purpose:
+    - Place Select All / Deselect All side-by-side
+    ========================================================================== */
+.community-button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+/* Base style shared by both action buttons */
+.community-action-button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 11px;
+    flex: 1;
+    border: 1px solid;
+    user-select: none;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+}
+
+/* Select All = positive/green */
+.community-select-all-button {
+    background: rgba(76, 175, 80, 0.15);
+    border-color: rgba(76, 175, 80, 0.3);
+    color: #4caf50;
+}
+.community-select-all-button:hover {
+    background: rgba(76, 175, 80, 0.25);
+    border-color: rgba(76, 175, 80, 0.5);
+}
+
+/* Deselect All = clearing/destructive/red */
+.community-deselect-all-button {
+    background: rgba(231, 76, 60, 0.15);
+    border-color: rgba(231, 76, 60, 0.3);
+    color: #e74c3c;
+}
+.community-deselect-all-button:hover {
+    background: rgba(231, 76, 60, 0.25);
+    border-color: rgba(231, 76, 60, 0.5);
+}
+
+/* ==========================================================================
+    Community Item Row
+    Purpose:
+    - Row that acts like a large checkbox: click anywhere to toggle
+    - Subtle hover effects for discoverability
+    - Selected state is visually highlighted
+    ========================================================================== */
+.community-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+.community-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.community-item-selected {
+    background: rgba(91, 143, 199, 0.15);
+    border-color: rgba(91, 143, 199, 0.3);
+}
+.community-item-selected:hover {
+    background: rgba(91, 143, 199, 0.2);
+    border-color: rgba(91, 143, 199, 0.4);
+}
+
+/* Checkbox
+    Purpose:
+    - visible checked indicator (accent-color sets theme)
+    - click is allowed but main toggle UX is row click */
+.community-checkbox {
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+    accent-color: #7dd3fc;
+}
+
+/* Color swatch
+    Purpose:
+    - show community’s unique color for visual matching to graph */
+.community-color-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+}
+
+/* Label + count
+    Purpose:
+    - label occupies remaining space
+    - count aligned right with monospace style for easy scanning */
+.community-label {
+    color: #e8f2ff;
+    font-size: 12px;
+    flex: 1;
+    font-weight: 500;
+}
+.community-count {
+    color: #ffd166;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    min-width: 40px;
+    text-align: right;
+}
+
+/* Scrollbars
+    Purpose:
+    - subtle thin scrollbar matching the theme */
+.community-content-area::-webkit-scrollbar { width: 6px; }
+.community-content-area::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+.community-content-area::-webkit-scrollbar-thumb {
+    background: rgba(100, 140, 255, 0.3);
+    border-radius: 3px;
+}
+.community-content-area::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 140, 255, 0.4);
+}
+
+/* Firefox scrollbar */
+.community-content-area {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 140, 255, 0.3) rgba(255, 255, 255, 0.05);
+}

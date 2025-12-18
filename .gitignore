@@ -34,6 +34,3 @@ tmp/
 
 # Local / generated
 *.tsbuildinfo
-
-# Local scripts
-venv.sh

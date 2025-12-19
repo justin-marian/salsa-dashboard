@@ -128,9 +128,6 @@ $$\mathbf{P}_h = \mathbf{W}_r \mathbf{W}_c^T, \quad \mathbf{P}_a = \mathbf{W}_c^
 
 where $\mathbf{W}_r$ and $\mathbf{W}_c$ are row/column-normalized adjacency matrices. Resistant to manipulation through link spamming.
 
-**Damping (teleportation):**
-Update: $\mathbf{x}_{\text{next}} \leftarrow (1-\alpha)\,\mathbf{x}_{\text{next}} + \alpha \cdot \frac{1}{N}$
-
 **Convergence:** L1 norm $\|\mathbf{x}^{(t+1)} - \mathbf{x}^{(t)}\|_1 < 10^{-9}$ with Krasnoselskii averaging when residuals increase.
 
 ## Distance-Based Edge Weighting
@@ -166,26 +163,6 @@ Measures network transitivity and small-world properties.
 **MLE Estimator:** $\hat{\gamma} = 1 + n\left[\sum_{i=1}^n \ln\frac{k_i}{k_{\min} - 0.5}\right]^{-1}$
 
 Values $\gamma \in [2,3]$ typical for real networks.
-
-### Forces
-
-Definitions: $\mathbf{r}_{ij}=\mathbf{p}_j-\mathbf{p}_i$, $r_{ij}=\|\mathbf{r}_{ij}\|$, $\mathbf{u}_{ij}=\mathbf{r}_{ij}/r_{ij}$.
-
-Repulsive: $\mathbf{F}_{\text{rep}}(i,j) = -C\,\frac{k^2}{r_{ij}}\,\mathbf{u}_{ij}$
-
-Attractive: $\mathbf{F}_{\text{att}}(i,j) = k_a\,r_{ij}\,\mathbf{u}_{ij}$
-
-**Approximation:**
-
-$\frac{s}{d} < \theta$
-
-Groups distant nodes, reduces $O(n^2)$ to $O(n \log n)$
-
-**System Energy:**
-
-$E = \sum_{i<j} \frac{k^2}{r_{ij}} + \sum_{(i,j) \in E} \frac{r_{ij}^2}{2k} \ln r_{ij}$
-
-Layout minimizes energy through iterative force application.
 
 ## Implementation Pipeline
 

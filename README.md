@@ -1,4 +1,4 @@
-# Graph Visualization Dashboard
+# Graph Visualization Dashboard - Mathematical Framework
 
 This document contains the mathematical formulations for graph analysis algorithms implemented in the dashboard.
 
@@ -128,7 +128,9 @@ $$\mathbf{P}_h = \mathbf{W}_r \mathbf{W}_c^T, \quad \mathbf{P}_a = \mathbf{W}_c^
 
 where $\mathbf{W}_r$ and $\mathbf{W}_c$ are row/column-normalized adjacency matrices. Resistant to manipulation through link spamming.
 
-**Damping:** Optional uniform teleportation: $\mathbf{x}_{\text{next}} \leftarrow (1-\alpha)\mathbf{x}_{\text{next}} + \alpha \cdot \frac{1}{N}$
+**Damping:** Optional uniform teleportation: 
+
+$\mathbf{x}_{\text{next}} \leftarrow (1-\alpha)\mathbf{x}_{\text{next}} + \alpha \cdot \frac{1}{N}$
 
 **Convergence:** L1 norm $\|\mathbf{x}^{(t+1)} - \mathbf{x}^{(t)}\|_1 < 10^{-9}$ with Krasnoselskii averaging when residuals increase.
 
@@ -170,11 +172,23 @@ Values $\gamma \in [2,3]$ typical for real networks.
 
 ### Barnes-Hut Algorithm
 
-**Forces:** Repulsive $\mathbf{F}_{\text{rep}}(i,j) = -C \frac{k^2}{r_{ij}} \hat{\mathbf{r}}_{ij}$ | Attractive $\mathbf{F}_{\text{att}}(i,j) = \frac{r_{ij}^2}{k} \ln\left(1 + \frac{r_{ij}}{k}\right) \hat{\mathbf{r}}_{ij}$
+**Repulsive Force:**
 
-**Approximation:** $\frac{s}{d} < \theta$ groups distant nodes (reduces $O(n^2)$ to $O(n \log n)$)
+$\mathbf{F}_{\text{rep}}(i,j) = -C \frac{k^2}{r_{ij}} \hat{\mathbf{r}}_{ij}$
 
-**Energy:** $E = \sum_{i<j} \frac{k^2}{r_{ij}} + \sum_{(i,j) \in E} \frac{r_{ij}^2}{2k} \ln r_{ij}$
+**Attractive Force:**
+
+$\mathbf{F}_{\text{att}}(i,j) = \frac{r_{ij}^2}{k} \ln\left(1 + \frac{r_{ij}}{k}\right) \hat{\mathbf{r}}_{ij}$
+
+**Approximation:**
+
+$\frac{s}{d} < \theta$
+
+Groups distant nodes, reduces $O(n^2)$ to $O(n \log n)$
+
+**System Energy:**
+
+$E = \sum_{i<j} \frac{k^2}{r_{ij}} + \sum_{(i,j) \in E} \frac{r_{ij}^2}{2k} \ln r_{ij}$
 
 Layout minimizes energy through iterative force application.
 

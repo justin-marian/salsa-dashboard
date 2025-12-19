@@ -1,4 +1,4 @@
-# Graph Visualization Dashboard - Mathematical Framework
+# Graph Visualization Dashboard
 
 This document contains the mathematical formulations for graph analysis algorithms implemented in the dashboard.
 

@@ -128,9 +128,8 @@ $$\mathbf{P}_h = \mathbf{W}_r \mathbf{W}_c^T, \quad \mathbf{P}_a = \mathbf{W}_c^
 
 where $\mathbf{W}_r$ and $\mathbf{W}_c$ are row/column-normalized adjacency matrices. Resistant to manipulation through link spamming.
 
-**Damping:** Optional uniform teleportation: 
-
-$\mathbf{x}_{\text{next}} \leftarrow (1-\alpha)\mathbf{x}_{\text{next}} + \alpha \cdot \frac{1}{N}$
+**Damping (teleportation):**
+Update: $\mathbf{x}_{\text{next}} \leftarrow (1-\alpha)\,\mathbf{x}_{\text{next}} + \alpha \cdot \frac{1}{N}$
 
 **Convergence:** L1 norm $\|\mathbf{x}^{(t+1)} - \mathbf{x}^{(t)}\|_1 < 10^{-9}$ with Krasnoselskii averaging when residuals increase.
 
@@ -168,13 +167,13 @@ Measures network transitivity and small-world properties.
 
 Values $\gamma \in [2,3]$ typical for real networks.
 
-## Forces
+### Forces
 
-**Definitions:** $\mathbf{r}_{ij}=\mathbf{p}_j-\mathbf{p}_i$, $r_{ij}=\|\mathbf{r}_{ij}\|$, $\mathbf{u}_{ij}=\mathbf{r}_{ij}/r_{ij}$.
+Definitions: $\mathbf{r}_{ij}=\mathbf{p}_j-\mathbf{p}_i$, $r_{ij}=\|\mathbf{r}_{ij}\|$, $\mathbf{u}_{ij}=\mathbf{r}_{ij}/r_{ij}$.
 
-**Repulsive Force:** $\mathbf{F}_{\mathrm{rep}}(i,j) = -C\,\frac{k^2}{r_{ij}}\,\mathbf{u}_{ij}$
+Repulsive: $\mathbf{F}_{\text{rep}}(i,j) = -C\,\frac{k^2}{r_{ij}}\,\mathbf{u}_{ij}$
 
-**Attractive Force:** $\mathbf{F}_{\mathrm{att}}(i,j) = k_a\, r_{ij}\,\mathbf{u}_{ij}$
+Attractive: $\mathbf{F}_{\text{att}}(i,j) = k_a\,r_{ij}\,\mathbf{u}_{ij}$
 
 **Approximation:**
 

@@ -1,4 +1,4 @@
-# Graph Visualization Dashboard - Mathematical Framework
+# Graph Visualization Dashboard
 
 This document contains the mathematical formulations for graph analysis algorithms implemented in the dashboard.
 
@@ -144,7 +144,7 @@ $$\text{MinBD}(u \to v) = \min\{\text{length of path } v \rightsquigarrow u\}$$
 
 Small MinBD indicates tight feedback loops; large/infinite MinBD indicates one-way structure.
 
-**Edge Weight Assignment:** $w(u \to v) = f(d(u \to v))$ where $f$ is distance weight function (default: $f(d) = 1/(1+d)$).
+**Edge Weight Assignment:** $w(u\to v)=f(d(u\to v))$ where $f$ is a distance weight function (default: $f(d)=\frac{1}{1+d}$).
 
 **Normalization:** $w_{\text{norm}}(u \to v) = w(u \to v) / \max(1, \text{outdeg}(u))$ then row-stochastic normalization.
 
@@ -168,17 +168,13 @@ Measures network transitivity and small-world properties.
 
 Values $\gamma \in [2,3]$ typical for real networks.
 
-## Force-Directed Layout
+## Forces
 
-### Barnes-Hut Algorithm
+**Definitions:** $\mathbf{r}_{ij}=\mathbf{p}_j-\mathbf{p}_i$, $r_{ij}=\|\mathbf{r}_{ij}\|$, $\mathbf{u}_{ij}=\mathbf{r}_{ij}/r_{ij}$.
 
-**Repulsive Force:**
+**Repulsive Force:** $\mathbf{F}_{\mathrm{rep}}(i,j) = -C\,\frac{k^2}{r_{ij}}\,\mathbf{u}_{ij}$
 
-$\mathbf{F}_{\text{rep}}(i,j) = -C \frac{k^2}{r_{ij}} \hat{\mathbf{r}}_{ij}$
-
-**Attractive Force:**
-
-$\mathbf{F}_{\text{att}}(i,j) = \frac{r_{ij}^2}{k} \ln\left(1 + \frac{r_{ij}}{k}\right) \hat{\mathbf{r}}_{ij}$
+**Attractive Force:** $\mathbf{F}_{\mathrm{att}}(i,j) = k_a\, r_{ij}\,\mathbf{u}_{ij}$
 
 **Approximation:**
 
